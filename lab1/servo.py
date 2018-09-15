@@ -6,7 +6,6 @@ import sys
 import tty
 import termios
 
-if sys.version[0]=="3" : raw_input=input
 # The servo hat uses its own numbering scheme within the Adafruit library.
 # 0 represents the first servo, 1 for the second, and so on.
 LSERVO = 0
@@ -49,12 +48,6 @@ def det_ch():
 pwm.set_pwm(LSERVO, 0, math.floor(1.5 / 20 * 4096))
 pwm.set_pwm(RSERVO, 0, math.floor(1.5 / 20* 4096))
 
-#while True:
-#	pwm.writePWMMicroseconds(1700)
-#	delay(20)
-#	RSERVO.writePWMMicroseconds(1300)
-#	delay(20)
-
 while True:
     # Write a maximum value of 1.7 for each servo.
     # Since the servos are oriented in opposite directions,
@@ -80,17 +73,11 @@ while True:
 	elif key_input == "q":
 		pwm.set_pwm(LSERVO, 0, math.floor(1.5 / 20 * 4096));
 		pwm.set_pwm(RSERVO, 0, math.floor(1.5 / 20 * 4096));
+	# Exit the program
 	elif key_input == "c":
 		print("Exiting")
 		#Stop the servos
 		pwm.set_pwm(LSERVO, 0, 0);
 		pwm.set_pwm(RSERVO, 0, 0);
 		exit()
-    
-		
-    
-    # Write a minimum value of 1.4 for each servo.
-    # The robot will end up spinning in the other direction.
-#    pwm.set_pwm(LSERVO, 0, math.floor(1.3 / 20 * 4096));
-#    pwm.set_pwm(RSERVO, 0, math.floor(1.3 / 20 * 4096));
-#    time.sleep(0.02)
+

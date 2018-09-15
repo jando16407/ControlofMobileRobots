@@ -29,26 +29,23 @@ def det_ch():
 def onLeftEncode(pin):
 	global left
 	left += 1
-	sys.stdout.write('\r')
-	sys.stdout.write("Left encoder ticked! ")
-	sys.stdout.write(str(left))
-	sys.stdout.write(" : Right encoder ticked! ")
-	sys.stdout.write(str(right))
-	sys.stdout.flush()
-#	print("\r")
-#	print("Left encoder ticked!")
-#	print(str(left))
+	display_ticks()
 
 # This function is called when the right encoder detects a rising edge signal.
 def onRightEncode(pin):
 	global right
 	right += 1
+	display_ticks()
+
+# This function displays current number of left and right ticks
+def display_ticks():
 	sys.stdout.write('\r')
 	sys.stdout.write("Left encoder ticked! ")
 	sys.stdout.write(str(left))
 	sys.stdout.write(" : Right encoder ticked! ")
 	sys.stdout.write(str(right))
 	sys.stdout.flush()
+
 
 # This function is called when Ctrl+C is pressed.
 # It's intended for properly exiting the program.
@@ -96,15 +93,6 @@ while True:
 		print(getCounts())
 	elif key_input == "r":
 		resetCounts()
-#	elif key_input == "d":
-#		pwm.set_pwm(LSERVO, 0, math.floor(1.515 / 20 * 4096));
-#		pwm.set_pwm(RSERVO, 0, math.floor(1.5 / 20 * 4096));
-#	elif key_input == "a":
-#		pwm.set_pwm(LSERVO, 0, math.floor(1.5 / 20 * 4096));
-#		pwm.set_pwm(RSERVO, 0, math.floor(1.485 / 20 * 4096));
-#	elif key_input == "q":
-#		pwm.set_pwm(LSERVO, 0, math.floor(1.5 / 20 * 4096));
-#		pwm.set_pwm(RSERVO, 0, math.floor(1.5 / 20 * 4096));
 	elif key_input == "c":
 		GPIO.cleanup()
 		print("Exiting")
