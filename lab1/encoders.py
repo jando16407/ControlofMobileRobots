@@ -13,8 +13,10 @@ def onLeftEncode(pin):
 	global left
 	left += 1
 	sys.stdout.write('\r')
-	sys.stdout.write("Left  encoder ticked! ")
+	sys.stdout.write("Left encoder ticked! ")
 	sys.stdout.write(str(left))
+	sys.stdout.write(" : Right encoder ticked! ")
+	sys.stdout.write(str(right))
 	sys.stdout.flush()
 #	print("\r")
 #	print("Left encoder ticked!")
@@ -24,7 +26,12 @@ def onLeftEncode(pin):
 def onRightEncode(pin):
 	global right
 	right += 1
-	print("Right encoder ticked!")
+	sys.stdout.write('\r')
+	sys.stdout.write("Left encoder ticked! ")
+	sys.stdout.write(str(left))
+	sys.stdout.write(" : Right encoder ticked! ")
+	sys.stdout.write(str(right))
+	sys.stdout.flush()
 
 # This function is called when Ctrl+C is pressed.
 # It's intended for properly exiting the program.
@@ -58,3 +65,4 @@ GPIO.add_event_detect(RENCODER, GPIO.RISING, onRightEncode)
 # Prevent the program from exiting by adding a looping delay.
 while True:
     time.sleep(1)
+
