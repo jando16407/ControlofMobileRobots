@@ -59,17 +59,17 @@ while True:
 
 	key_input = det_ch()
 	if key_input == "w":
-		pwm.set_pwm(LSERVO, 0, math.floor(1.515 / 20 * 4096));
-		pwm.set_pwm(RSERVO, 0, math.floor(1.485 / 20 * 4096));
+		pwm.set_pwm(LSERVO, 0, math.floor(1.7 / 20 * 4096));
+		pwm.set_pwm(RSERVO, 0, math.floor(1.3 / 20 * 4096));
 	elif key_input == "s":
-		pwm.set_pwm(LSERVO, 0, math.floor(1.485 / 20 * 4096));
-		pwm.set_pwm(RSERVO, 0, math.floor(1.515 / 20 * 4096));
+		pwm.set_pwm(LSERVO, 0, math.floor(1.3 / 20 * 4096));
+		pwm.set_pwm(RSERVO, 0, math.floor(1.7 / 20 * 4096));
 	elif key_input == "d":
-		pwm.set_pwm(LSERVO, 0, math.floor(1.515 / 20 * 4096));
-		pwm.set_pwm(RSERVO, 0, math.floor(1.5 / 20 * 4096));
+		pwm.set_pwm(LSERVO, 0, math.floor(1.7 / 20 * 4096));
+		pwm.set_pwm(RSERVO, 0, math.floor(1.7 / 20 * 4096));
 	elif key_input == "a":
-		pwm.set_pwm(LSERVO, 0, math.floor(1.5 / 20 * 4096));
-		pwm.set_pwm(RSERVO, 0, math.floor(1.485 / 20 * 4096));
+		pwm.set_pwm(LSERVO, 0, math.floor(1.3 / 20 * 4096));
+		pwm.set_pwm(RSERVO, 0, math.floor(1.3 / 20 * 4096));
 	elif key_input == "q":
 		pwm.set_pwm(LSERVO, 0, math.floor(1.5 / 20 * 4096));
 		pwm.set_pwm(RSERVO, 0, math.floor(1.5 / 20 * 4096));
