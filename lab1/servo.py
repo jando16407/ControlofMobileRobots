@@ -86,7 +86,6 @@ while True:
 		pwm.set_pwm(LSERVO, 0, 0);
 		pwm.set_pwm(RSERVO, 0, 0);
 		exit()
-	signal.signal(signal.SIGINT, ctrlC)
     
 		
     

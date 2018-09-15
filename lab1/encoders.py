@@ -2,12 +2,29 @@ import time
 import RPi.GPIO as GPIO
 import signal
 import sys
+import tty
+import termios
 
 # Pins that the encoders are connected to
 LENCODER = 17
 RENCODER = 18
 left = 0
 right = 0
+
+# declare tuple
+#counts = ("Left count : ", str(left), ", RIght count : ", str(right));
+
+# The det_ch method will determine which key has been pressed
+def det_ch():
+	aa = sys.stdin.fileno()
+	settings = termios.tcgetattr(aa)
+	try:
+		tty.setraw(sys.stdin.fileno())
+		key = sys.stdin.read(1)
+	finally:
+		termios.tcsetattr(aa, termios.TCSADRAIN, settings)
+	return key
+
 # This function is called when the left encoder detects a rising edge signal.
 def onLeftEncode(pin):
 	global left
@@ -43,11 +60,20 @@ def ctrlC(signum, frame):
 	exit()
 
 # This function resets the tick count
-def resetCouns():
+def resetCounts():
+	print("RESETCOUNTS CALLED")
+	global left
+	global right
+	left = 0
+	right = 0
 
+# This function return the tuple of tick counts
+def getCounts():
+	print("GETCOUNTS CALLED\n")
+	return (str(left), str(right))
 
 # Attach the Ctrl+C signal interrupt
-	signal.signal(signal.SIGINT, ctrlC)
+signal.signal(signal.SIGINT, ctrlC)
     
 # Set the pin numbering scheme to the numbering shown on the robot itself.
 GPIO.setmode(GPIO.BCM)
@@ -64,5 +90,22 @@ GPIO.add_event_detect(RENCODER, GPIO.RISING, onRightEncode)
 
 # Prevent the program from exiting by adding a looping delay.
 while True:
-    time.sleep(1)
-
+	time.sleep(1)
+	key_input = det_ch()
+	if key_input == "g":
+		print(getCounts())
+	elif key_input == "r":
+		resetCounts()
+#	elif key_input == "d":
+#		pwm.set_pwm(LSERVO, 0, math.floor(1.515 / 20 * 4096));
+#		pwm.set_pwm(RSERVO, 0, math.floor(1.5 / 20 * 4096));
+#	elif key_input == "a":
+#		pwm.set_pwm(LSERVO, 0, math.floor(1.5 / 20 * 4096));
+#		pwm.set_pwm(RSERVO, 0, math.floor(1.485 / 20 * 4096));
+#	elif key_input == "q":
+#		pwm.set_pwm(LSERVO, 0, math.floor(1.5 / 20 * 4096));
+#		pwm.set_pwm(RSERVO, 0, math.floor(1.5 / 20 * 4096));
+	elif key_input == "c":
+		GPIO.cleanup()
+		print("Exiting")
+		exit()
