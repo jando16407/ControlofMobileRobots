@@ -19,6 +19,11 @@ RENCODER = 18
 left = 0
 right = 0
 
+# Values for getSpeed()
+#global gtSp_Lstart, gtSp_Lstop, gtSp_Rstart, gtSp_Rstop, gtSp_Ltime_start, gtSp_Ltime_end, gtSp_Rtime_start, gtSp_Rtime_end
+gtSp_Lstart = gtSp_Lstop = gtSp_Rstart = gtSp_Rstop = 0
+gtSp_Rtime_start = gtSp_Rtime_end = gtSp_Ltime_start = gtSp_Ltime_end = 0
+
 ##########################
 # This function is called when Ctrl+C is pressed.
 # It's intended for properly exiting the program.
@@ -57,6 +62,23 @@ def onLeftEncode(pin):
 	global left
 	left += 1
 	display_ticks()
+	check_elapsed_L()
+	#if(gtSp_Lstart == 1):
+	#	gtSp_Lstop = 1
+	
+
+def check_elapsed_L():
+	global gtSp_Lstart, gtSp_Lstop, gtSp_Rstart, gtSp_Rstop, gtSp_Ltime_start, gtSp_Ltime_end, gtSp_Rtime_start, gtSp_Rtime_end
+	if(gtSp_Lstop == 1):
+		gtSp_Ltime_end = time.time()
+		elapsed = gtSp_Ltime_end - gtSp_Ltime_start
+		print("TIME ELAPSED IS : ", elapsed)
+		gtSp_Lstart = gtSp_Lstop = 0
+	if(gtSp_Lstart == 1):
+		gtSp_Ltime_start = time.time()
+#		gtSp_Ltime_start = 0
+		gtSp_Lstop = 1
+	
 
 # This function is called when the right encoder detects a rising edge signal.
 def onRightEncode(pin):
@@ -86,6 +108,9 @@ def getCounts():
 	print("\nGETCOUNTS CALLED")
 	return (str(left), str(right))
 
+# This function returns the current speed of servos
+# def getSpeeds():d
+
 # Set the pin numbering scheme to the numbering shown on the robot itself.
 GPIO.setmode(GPIO.BCM)
 
@@ -113,22 +138,33 @@ while True:
     # Values between 1.3 and 1.7 should be used.
 
 	key_input = det_ch()
+	# get counts
 	if key_input == "g":
 		print(getCounts())
+	# reset counts
 	elif key_input == "r":
 		resetCounts()
+	# get current speed
+	elif key_input == "t":
+		print("GET CORRENT SPEED CALLED\n")
+		gtSp_Lstart = gtSp_Rstart = 1
+	# move forward
 	elif key_input == "w":
-		pwm.set_pwm(LSERVO, 0, math.floor(1.6 / 20 * 4096));
-		pwm.set_pwm(RSERVO, 0, math.floor(1.4 / 20 * 4096));
+		pwm.set_pwm(LSERVO, 0, math.floor(1.51 / 20 * 4096));
+		pwm.set_pwm(RSERVO, 0, math.floor(1.49 / 20 * 4096));
+	# move back
 	elif key_input == "s":
-		pwm.set_pwm(LSERVO, 0, math.floor(1.4 / 20 * 4096));
-		pwm.set_pwm(RSERVO, 0, math.floor(1.6 / 20 * 4096));
+		pwm.set_pwm(LSERVO, 0, math.floor(1.49 / 20 * 4096));
+		pwm.set_pwm(RSERVO, 0, math.floor(1.51 / 20 * 4096));
+	# turn right
 	elif key_input == "d":
-		pwm.set_pwm(LSERVO, 0, math.floor(1.6 / 20 * 4096));
-		pwm.set_pwm(RSERVO, 0, math.floor(1.6 / 20 * 4096));
+		pwm.set_pwm(LSERVO, 0, math.floor(1.51 / 20 * 4096));
+		pwm.set_pwm(RSERVO, 0, math.floor(1.51 / 20 * 4096));
+	# turn left
 	elif key_input == "a":
-		pwm.set_pwm(LSERVO, 0, math.floor(1.4 / 20 * 4096));
-		pwm.set_pwm(RSERVO, 0, math.floor(1.4 / 20 * 4096));
+		pwm.set_pwm(LSERVO, 0, math.floor(1.49 / 20 * 4096));
+		pwm.set_pwm(RSERVO, 0, math.floor(1.49 / 20 * 4096));
+	# stop
 	elif key_input == "q":
 		pwm.set_pwm(LSERVO, 0, math.floor(1.5 / 20 * 4096));
 		pwm.set_pwm(RSERVO, 0, math.floor(1.5 / 20 * 4096));

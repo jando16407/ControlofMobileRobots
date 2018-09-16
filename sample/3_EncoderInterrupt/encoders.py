@@ -32,6 +32,10 @@ def ctrlC(signum, frame):
 	GPIO.cleanup()
 	exit()
 
+def key_test(signum, frame):
+	print("KEY_TEST CAPTURED\n")
+
+signal.signal(signal.SIGINT, key_test)
 # Attach the Ctrl+C signal interrupt
 signal.signal(signal.SIGINT, ctrlC)
     
